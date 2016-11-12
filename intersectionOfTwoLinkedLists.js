@@ -68,17 +68,27 @@ var getIntersectionNode = function(headA, headB) {
   }
 
   for (let i = 0; i < shorter.length; i++) {
-    if (longer.val === shorter.val) {
+    if (longer == shorter) {
       return longer;
     }
+    let temp = shorter;
     longer = longer.next;
     shorter = shorter.next;
+    shorter.length = temp.length - 1;
   }
   return null;
-
 };
 
 let newList = new ListNode(1);
 let newList2 = new ListNode(2);
 newList.next = new ListNode(5);
-console.log(newList.next);
+newList.next.next = new ListNode(10);
+let newList3 = new ListNode(3);
+newList.next.next.next = newList3;
+newList2.next = newList3;
+newList3.next = new ListNode(11);
+newList3.next.next = new ListNode(12);
+let newList4 = new ListNode(4);
+newList4.next = newList;
+
+console.log('got it', getIntersectionNode(newList4, newList2))
