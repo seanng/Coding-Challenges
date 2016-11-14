@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 // Solve all of the following prompts using recursion.
 
 // 1. Calculate the factorial of a number.  The factorial of a non-negative integer n,
@@ -26,10 +27,19 @@ var sum = function(array, index=0, total=0) {
 // 3. Sum all numbers in an array containing nested arrays.
 // Example: arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  let remaining = array.slice(1);
+  if (typeof array[0] === 'number') {
+    return array[0] + arraySum(remaining);
+  }
+  if (array[0] === undefined || array[0] === null) {
+    return 0;
+  }
+  return arraySum(array[0]) + arraySum(remaining);
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+
 };
 
 // 5. Sum all integers below a given integer.
