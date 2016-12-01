@@ -69,3 +69,67 @@ const numberOfBlocks = (str) => {
 
 console.log(numberOfBlocks('R2, L3, R2, R4, L2, L1, R2, R4, R1, L4, L5, R5, R5, R2, R2, R1, L2, L3, L2, L1, R3, L5, R187, R1, R4, L1, R5, L3, L4, R50, L4, R2, R70, L3, L2, R4, R3, R194, L3, L4, L4, L3, L4, R4, R5, L1, L5, L4, R1, L2, R4, L5, L3, R4, L5, L5, R5, R3, R5, L2, L4, R4, L1, R3, R1, L1, L2, R2, R2, L3, R3, R2, R5, R2, R5, L3, R2, L5, R1, R2, R2, L4, L5, L1, L4, R4, R3, R1, R2, L1, L2, R4, R5, L2, R3, L4, L5, L5, L4, R4, L2, R1, R1, L2, L3, L2, R2, L4, R3, R2, L1, L3, L2, L4, L4, R2, L3, L3, R2, L4, L3, R4, R3, L2, L1, L4, R4, R2, L4, L4, L5, L1, R2, L5, L2, L3, R2, L2'));
 
+/* --- Part Two ---
+
+Then, you notice the instructions continue on the back of the Recruiting Document. Easter Bunny HQ is actually at the first location you visit twice.
+
+For example, if your instructions are R8, R4, R4, R8, the first location you visit twice is 4 blocks away, due East.
+
+How many blocks away is the first location you visit twice?
+
+Input: String
+Output: Blocks away
+*/
+
+const numberOfBlocks2 = (str) => {
+  let array = str.split(', ');
+  let direction = "North";
+  let lat = 0;
+  let lng = 0;
+
+  const memo = {
+    '0, 0': true
+  };
+
+  const help2 = {
+    North: {
+      R: 'East',
+      L: 'West',
+      move: () => lng --
+    },
+    South: {
+      R: 'West',
+      L: 'East',
+      move: ()=> lng ++
+    },
+    East: {
+      R: 'South',
+      L: 'North',
+      move: () => lat ++
+    },
+    West: {
+      R: 'North',
+      L: 'South',
+      move: () => lat --
+    }
+  };
+
+  for (let i = 0; i < array.length; i++) {
+    let turn = array[i].slice(0, 1);
+    let dist = array[i].slice(1) * 1;
+    direction = help2[direction][turn];
+
+    for (let j = 0; j < dist; j++) {
+      help2[direction].move();
+      if (memo[lat+', '+lng]) {
+        return Math.abs(lat) + Math.abs(lng);
+      }
+      memo[lat+', '+lng] = true;
+    }
+  }
+  return null;
+};
+
+console.log(numberOfBlocks2('R4, R4, R4, R4'));
+console.log(numberOfBlocks2('R2, L3, R2, R4, L2, L1, R2, R4, R1, L4, L5, R5, R5, R2, R2, R1, L2, L3, L2, L1, R3, L5, R187, R1, R4, L1, R5, L3, L4, R50, L4, R2, R70, L3, L2, R4, R3, R194, L3, L4, L4, L3, L4, R4, R5, L1, L5, L4, R1, L2, R4, L5, L3, R4, L5, L5, R5, R3, R5, L2, L4, R4, L1, R3, R1, L1, L2, R2, R2, L3, R3, R2, R5, R2, R5, L3, R2, L5, R1, R2, R2, L4, L5, L1, L4, R4, R3, R1, R2, L1, L2, R4, R5, L2, R3, L4, L5, L5, L4, R4, L2, R1, R1, L2, L3, L2, R2, L4, R3, R2, L1, L3, L2, L4, L4, R2, L3, L3, R2, L4, L3, R4, R3, L2, L1, L4, R4, R2, L4, L4, L5, L1, R2, L5, L2, L3, R2, L2'));
+
