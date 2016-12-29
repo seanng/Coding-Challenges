@@ -41,9 +41,9 @@ const solution = (fnInput) => {
       (n > 0) && b++;
     }, 0);
 
-    res += (lateStudents >= K) ? 'YES' : 'NO';
+    res += (lateStudents >= K) ? 'YES\n' : 'NO\n';
 
   }
 
-  return res;
+  return res.slice(-2);
 };
